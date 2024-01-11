@@ -100,6 +100,25 @@ function App() {
     }
   ]
 
+  const fetchStdId = async() => {
+    const rsp = "Student Not Found";
+  try{
+    while(rsp==="Student Not Found"){
+  const studentId = prompt("Please enter your Register Number : ");
+  localStorage.setItem("studentId", studentId);
+  setStdId(studentId);
+  const Idres = await fetch(`http://localhost:3001/api/studentID/${studentId}`)
+  if(Idres.ok){
+    const IdresJson = await Idres.json();
+    if(IdresJson!="Wrong Register number"){
+    console.log(IdresJson);
+    setStdName(IdresJson.StdName);
+    setStdId(IdresJson.RegNo);
+    rsp="Student Found";
+  }}
+}}catch(err){}
+}
+
   useEffect(() => {
     const storedStudentId = localStorage.getItem("studentId");
 
@@ -112,7 +131,7 @@ function App() {
           if (response.ok) {
             const studentData = await response.json();
             console.log(studentData);
-            if (studentData !== "Student Not Found") {
+            if (studentData != "Student Not Found") {
               setStdName(studentData.stdName);
               setEmail(studentData.email);
               setPhNo(studentData.phNo);
@@ -125,11 +144,11 @@ function App() {
       };
 
       fetchStudentData();
-    } else {
-      const studentId = prompt("Please enter your Register Number : ");
-      localStorage.setItem("studentId", studentId);
-      setStdId(studentId);
+    } 
+    else{
+      fetchStdId();
     }
+    
   }, []);
 
 
@@ -198,6 +217,7 @@ function App() {
             <div>
               {stdName} has already submitted the response for the {courseName}
             </div>
+
           </div>) :
           (
             <div>

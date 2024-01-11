@@ -16,6 +16,12 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
   dbName: 'StudentDB'
 });
 
+const nameList = new mongoose.Schema({
+  SNo : Number,
+  RegNo: Number,
+  StdName: String,
+});
+
 const responseSchema = new mongoose.Schema({
   qid: String,
   question: String,
@@ -63,8 +69,25 @@ const studentSchema = new mongoose.Schema({
 
 
 const Student = mongoose.model('Student', studentSchema);
+const StudentIDModel = mongoose.model('nameList',nameList);
+app.get('/api/studentID/:id', async (req, res) => {
+  const studentID = req.params.id;
+  console.log(studentID);
 
-app.get('/');
+  try {
+    const isFound = await StudentIDModel.findOne({ RegNo: studentID });
+    console.log(isFound);
+    if (isFound) {
+      res.json(isFound);
+    } else {
+      res.json("Wrong Register number");
+    }
+  } catch (err) {
+    console.error('Error retrieving student data:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 app.get('/api/student/:id', async (req, res) => {
   const studentId = req.params.id;
