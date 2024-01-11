@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faEnvelope, faPhone, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import DropdownPart from "./DropdownPart";
 import Sem from "./Sem";
 import Student from "./Student";
+import Auth from "./Auth";
+import SignUp from "./SignUp";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -20,6 +23,7 @@ function App() {
   const [email, setEmail] = useState("");
   const [phNo, setPhNo] = useState("");
   const [duplicate, setDuplicate] = useState(false);
+  const [auths,isAuths] = useState(true);
 
   const courses = {
     'Probability,Statistics and Queuing Theory': '22SPC308',
@@ -128,6 +132,7 @@ function App() {
     }
   }, []);
 
+
   const handleOptionChange = (id, question, selectedOption) => {
     const updatedResponses = [...responses];
     const existingResponseIndex = updatedResponses.findIndex(response => response.qid === id);
@@ -180,7 +185,7 @@ function App() {
 
   return (
     <div>
-      <h1>Evaluation Form</h1>
+      <h1 className="topic">Evaluation Form</h1>
       {updated ? (
         <div className='submitted'>
           <FontAwesomeIcon icon={faCheckCircle} beatFade size="lg" />
@@ -268,9 +273,12 @@ function App() {
                     ))}
                   </tbody>
                 </table>
-
-                <button type='submit'>Submit</button>
+                <div className="d-flex">
+                <button type='submit' onClick={(e) => {handleSubmit(e)}}>Submit</button>
+                {/* <button onClick={(e) => Auth(e)} className="resBtn">Response Data</button> */}
+                </div>
               </form>
+              
             </div>
           )
       )}
