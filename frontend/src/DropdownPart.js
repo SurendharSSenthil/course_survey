@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Row, Col, Card } from 'react-bootstrap';
 
-const DropdownPart = ({ courseName, setCourseName, courses,setCourseId }) => {
+const DropdownPart = ({faculty, courseName, setCourseName, courses,setCourseId }) => {
   async function handleOptionChange(e){
    const cn = e.target.value;
    await setCourseName(cn);
@@ -44,6 +44,7 @@ const DropdownPart = ({ courseName, setCourseName, courses,setCourseId }) => {
           <h5 className="mb-3">Selected Course Information:</h5>
           <p className="course-info"><strong>Course Name:</strong> {courseName}</p>
           <p className="course-info"><strong>Course Code:</strong> {courses[courseName]}</p>
+          <p className="course-info"><strong>Faculty:</strong> {faculty[courseName]}</p>
         </div>
       )}
     </Card>

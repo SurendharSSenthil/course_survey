@@ -1,16 +1,10 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Student({ stdName, setStdName, stdId, setStdId }) {
+function Student({ stdName, setStdName, regNo, setRegNo }) {
   const handleNameChange = (e) => {
     setStdName(e.target.value);
     console.log(stdName);
-  }
-
-  const handleIdChange = (e) => {
-    setStdId(e.target.value);
-    localStorage.setItem("studentId",stdId);
-    console.log(stdId);
   }
 
   return (
@@ -31,14 +25,14 @@ function Student({ stdName, setStdName, stdId, setStdId }) {
         </div>
         <div className="col-md-6">
           <div className="form-group">
-            <label htmlFor="stdId">Register Number:</label>
+            <label htmlFor="regNo">Register Number:</label>
             <input
               type="text"
-              className="form-control"
-              id="stdId"
-              name="stdId"
-              value={stdId}
-              onChange={(e) => handleIdChange(e)}
+              className="form-control disInput"
+              id="regNo"
+              name="regNo"
+              value={regNo}
+              disabled={true}
             />
           </div>
         </div>

@@ -1,37 +1,64 @@
-import React from "react"
+import React, { useState } from "react";
+import './Auth.css';
 
-export default function () {
+const Auth = ({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdName}) => { 
+  const [wrong, setWrong] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch('http://localhost:3001/api/studentID', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+      },
+      body: JSON.stringify({regNo, dob}),
+    })
+    .then((res) => res.json())
+    .then((res) => {
+      if(res !== "Wrong password") {
+        setIsAuth(true);
+        setWrong(false);
+        setStdName(res.StdName);
+        localStorage.setItem('isAuth', true);
+        localStorage.setItem('studentId', regNo);
+      } else {
+        setRegNo("");
+        setDob("");
+        setWrong(true);
+        setIsAuth(false);
+      }
+    })
+    .catch((err) => console.log(err))
+  } 
+
   return (
-    <div className="Auth-form-container">
-      <form className="Auth-form">
-        <div className="Auth-form-content">
-          <h3 className="Auth-form-title">Sign In</h3>
-          <div className="form-group mt-3">
-            <label>Email address</label>
-            <input
-              type="email"
-              className="form-control mt-1"
-              placeholder="Enter email"
-            />
-          </div>
-          <div className="form-group mt-3">
-            <label>Password</label>
-            <input
-              type="password"
-              className="form-control mt-1"
-              placeholder="Enter password"
-            />
-          </div>
-          <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
-          </div>
-          <p className="forgot-password text-right mt-2">
-            Forgot <a href="#">password?</a>
-          </p>
-        </div>
+    <div className="main__login__container">
+      <div className="login__container">
+      <h2 className="login__header">Login</h2>
+      <form onSubmit={handleSubmit} className="login__form">
+        <label>Register Number : </label>
+        <input
+            value={regNo}
+            onChange={(e) => setRegNo(e.target.value)}
+            type="text"
+            required
+            className="login__input"
+        />
+        <label>Date Of Birth : </label>
+        <input
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+            type="text"
+            placeholder="DD-MM-YYYY"
+            required
+            className="login__input"
+        />
+        <div className="error-message"></div>
+        <button type="submit" className="login__button">Login</button>
       </form>
+      </div>
     </div>
-  )
-}
+  );
+};
+
+export default Auth;

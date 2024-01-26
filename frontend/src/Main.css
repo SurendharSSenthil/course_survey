@@ -1,5 +1,5 @@
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: serif;
   background-color: #f4f4f4;
   margin: 0;
   padding: 0;
@@ -58,6 +58,14 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* input:hover{
+  border:5px solid #007bff;
+} */
+/* 
+.disInput{
+  background-color: #7b2222;
+} */
+
 .table {
   width: 100%;
   margin-top: 20px;
@@ -74,6 +82,7 @@ h1 {
 .table th {
   background-color: #007bff;
   color: #fff;
+  font-size: 20px;
 }
 
 .even-row {
@@ -92,6 +101,8 @@ button {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 button:hover {
@@ -138,8 +149,17 @@ button:hover {
     width: calc(100% - 20px);
   }
 
+  table{
+    overflow-x: scroll;
+  }
   .table th,
   .table td {
     padding: 8px; 
+  }
+  .table th{
+    font-size: 16px;
+  }
+  button{
+    font-size: 16px;
   }
 }

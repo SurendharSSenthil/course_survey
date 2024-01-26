@@ -23,7 +23,7 @@ const nameList = new mongoose.Schema({
 });
 
 const responseSchema = new mongoose.Schema({
-  qid: String,
+  qid: Number,
   question: String,
   response: String,
 });
@@ -70,17 +70,18 @@ const studentSchema = new mongoose.Schema({
 
 const Student = mongoose.model('Student', studentSchema);
 const StudentIDModel = mongoose.model('nameList',nameList);
-app.get('/api/studentID/:id', async (req, res) => {
-  const studentID = req.params.id;
-  console.log(studentID);
-
+app.post('/api/studentID', async (req, res) => {
+  const studentAuth = req.body;
+  console.log(studentAuth);
+  const studentID = studentAuth.regNo;
+  const studentDOB = studentAuth.dob;
   try {
-    const isFound = await StudentIDModel.findOne({ RegNo: studentID });
+    const isFound = await StudentIDModel.findOne({ RegNo: studentID, DOB: studentDOB });
     console.log(isFound);
     if (isFound) {
       res.json(isFound);
     } else {
-      res.json("Wrong Register number");
+      res.json("Wrong password");
     }
   } catch (err) {
     console.error('Error retrieving student data:', err);
@@ -116,7 +117,7 @@ app.post('/submit-form', async (req, res) => {
     console.log(formData.courseId);
     const newStudent = new Student({
       stdName: formData.stdName,
-      stdId: formData.stdId,
+      stdId: formData.regNo,
       email: formData.email,
       phNo: formData.phNo,
       courseName: formData.courseName,
@@ -141,6 +142,86 @@ app.post('/submit-form', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+app.post('/dashboard', async (req, res) => {
+  const reqData = req.body;
+
+  try {
+    let categoryScale;
+
+    if (reqData.category === "Planning and organization") {
+      categoryScale = 1;
+    } else if (reqData.category === "Presentation and Communication") {
+      categoryScale = 2;
+    } else if (reqData.category === "Student participation") {
+      categoryScale = 3;
+    } else if (reqData.category === "Class Management") {
+      categoryScale = 4;
+    } else {
+      // Handle invalid category
+      return res.status(400).json({ error: 'Invalid category' });
+    }
+
+    const lowerBound = (categoryScale - 1) * 5 + 1;
+    const upperBound = categoryScale * 5;
+
+    const aggregationPipeline = [
+      { $unwind: "$responses" },
+      {
+        $match: {
+          "courseName": reqData.sub,
+          "responses.qid": { $gte: lowerBound, $lte: upperBound }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          totalScore: { 
+            $sum: {
+              $switch: {
+                branches: [
+                  { case: { $eq: ["$responses.response", "Excellent"] }, then: 5 },
+                  { case: { $eq: ["$responses.response", "Very Good"] }, then: 4 },
+                  { case: { $eq: ["$responses.response", "Good"] }, then: 3 },
+                  { case: { $eq: ["$responses.response", "Fair"] }, then: 2 },
+                  { case: { $eq: ["$responses.response", "Satisfactory"] }, then: 1 },
+                ],
+                default: 0
+              }
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          totalScore: 1
+        }
+      }
+    ];
+
+    const result = await Student.aggregate(aggregationPipeline);
+    console.log(result);
+    res.json(result);
+  } catch (err) {
+    console.error('Error in aggregation:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/student/:sub',async(req,res) => {
+  const subject = req.params.sub;
+  console.log(subject);
+  try{
+    const stdCount = await Student.countDocuments({courseName: subject});
+    console.log(stdCount);
+    res.json(stdCount);
+  }catch(err){
+    console.log(err);
+  }
+})
+
+
 
 app.listen(port, () => {
   console.log(`Express Listening on ${port}`);
