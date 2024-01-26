@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import './Auth.css';
 
 const Auth = ({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdName}) => { 
-  const [wrong, setWrong] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,14 +16,14 @@ const Auth = ({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
     .then((res) => {
       if(res !== "Wrong password") {
         setIsAuth(true);
-        setWrong(false);
+        // setWrong(false);
         setStdName(res.StdName);
         localStorage.setItem('isAuth', true);
         localStorage.setItem('studentId', regNo);
       } else {
         setRegNo("");
         setDob("");
-        setWrong(true);
+        // setWrong(true);
         setIsAuth(false);
       }
     })
