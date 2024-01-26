@@ -67,7 +67,7 @@ const Admin = () => {
 
         fetchData();
         fetchStdCountData();
-    });
+    },[]);
 
     const totRes = (sub) => {
         let tot = 0;
