@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Main.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faEnvelope, faPhone, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
-import DropdownPart from "./DropdownPart";
 import Sem from "./Sem";
 import Student from "./Student";
+import DropdownPart from "./DropdownPart";
 
 
 function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdName}) {
@@ -153,6 +153,11 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!courseName || !email || !phNo || responses.length !== questions.length) {
+      alert("Please fill out all required fields and answer all questions.");
+      return;
+    }
+    else{
     fetch('http://localhost:3001/submit-form', {
       method: 'POST',
       headers: {
@@ -176,6 +181,8 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
         if (data === "Duplicate Entry") {
           setDuplicate(true);
           setUpdated(false);
+        }else if(data === "Internal Server Error"){
+          alert("course is not selected!");
         }
         else {
           setUpdated(true);
@@ -183,7 +190,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
       })
       .catch(error => console.error('Error sending POST request:', error));
 
-    console.log('User responses:', responses);
+    console.log('User responses:', responses);}
   };
 
   const ReturnBtn = (e) => {
@@ -252,6 +259,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
                 </div>
                 {sem === 'III' && <DropdownPart faculty={faculty}courseName={courseName} setCourseName={setCourseName} courses={courses} setCourseId={setCourseId} />}
 
+
                 <table className='table table-bordered table-striped'>
                   <thead>
                     <tr>
@@ -287,7 +295,6 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
                 </table>
                 <div className="d-flex">
                 <button type='submit' onClick={(e) => {handleSubmit(e)}}>Submit</button>
-                {/* <button onClick={(e) => Auth(e)} className="resBtn">Response Data</button> */}
                 </div>
               </form>
               

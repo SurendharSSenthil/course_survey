@@ -23,6 +23,7 @@ const DropdownPart = ({faculty, courseName, setCourseName, courses,setCourseId }
               className="form-select select-dropdown"
               value={courseName}
               onChange={handleOptionChange}
+              required
             >
               <option value="">-- Select --</option>
               <option value="Probability,Statistics and Queuing Theory">Probability, Statistics and Random Processes</option>

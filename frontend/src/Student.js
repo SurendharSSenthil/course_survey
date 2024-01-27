@@ -19,6 +19,7 @@ function Student({ stdName, setStdName, regNo, setRegNo }) {
               id="stdName"
               name="stdName"
               value={stdName}
+              required
               onChange={(e) => handleNameChange(e)}
             />
           </div>

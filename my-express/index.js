@@ -17,9 +17,10 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
 });
 
 const nameList = new mongoose.Schema({
-  SNo : Number,
-  RegNo: Number,
+  SNo: Number,
+  RegNo: String,
   StdName: String,
+  DOB: String
 });
 
 const responseSchema = new mongoose.Schema({
@@ -69,16 +70,16 @@ const studentSchema = new mongoose.Schema({
 
 
 const Student = mongoose.model('Student', studentSchema);
-const StudentIDModel = mongoose.model('nameList',nameList);
+const StudentIDModel = mongoose.model('nameList', nameList);
 app.post('/api/studentID', async (req, res) => {
   const studentAuth = req.body;
   console.log(studentAuth);
   const studentID = studentAuth.regNo;
   const studentDOB = studentAuth.dob;
   try {
-    const isFound = await StudentIDModel.findOne({ RegNo: studentID, DOB: studentDOB });
+    const isFound = await StudentIDModel.find({ RegNo: studentID, DOB: studentDOB });
     console.log(isFound);
-    if (isFound) {
+    if (isFound.length>0) {
       res.json(isFound);
     } else {
       res.json("Wrong password");
@@ -96,12 +97,12 @@ app.get('/api/student/:id', async (req, res) => {
   try {
     const studentData = await Student.findOne({ stdId: studentId });
     //console.log(studentData);
-  if(studentData){
-    res.json(studentData);
-  }
-  else{
-    res.json("Student Not Found");
-  }
+    if (studentData) {
+      res.json(studentData);
+    }
+    else {
+      res.json("Student Not Found");
+    }
   } catch (error) {
     console.error('Error retrieving student data:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -126,16 +127,17 @@ app.post('/submit-form', async (req, res) => {
       year: formData.year,
       responses: formData.responses,
     });
-    const duplicateEntry = await Student.find({stdId: formData.stdId, courseName: formData.courseName});
-    if(duplicateEntry.length > 0){
+    const duplicateEntry = await Student.countDocuments({ stdId: formData.regNo, courseName: formData.courseName });
+    if (duplicateEntry !== 0) {
       res.json("Duplicate Entry");
       console.log(duplicateEntry);
     }
-    else{
-    await newStudent.save();
+    else {
+      console.log(duplicateEntry);
+      await newStudent.save();
 
-    console.log('Document successfully inserted');
-    res.json({ message: 'Form Successfully Submitted!' });
+      console.log('Document successfully inserted');
+      res.json({ message: 'Form Successfully Submitted!' });
     }
   } catch (e) {
     console.log('Error Occurred:', e.message);
@@ -158,7 +160,6 @@ app.post('/dashboard', async (req, res) => {
     } else if (reqData.category === "Class Management") {
       categoryScale = 4;
     } else {
-      // Handle invalid category
       return res.status(400).json({ error: 'Invalid category' });
     }
 
@@ -176,7 +177,7 @@ app.post('/dashboard', async (req, res) => {
       {
         $group: {
           _id: null,
-          totalScore: { 
+          totalScore: {
             $sum: {
               $switch: {
                 branches: [
@@ -209,19 +210,35 @@ app.post('/dashboard', async (req, res) => {
   }
 });
 
-app.get('/student/:sub',async(req,res) => {
+app.get('/student/:sub', async (req, res) => {
   const subject = req.params.sub;
   console.log(subject);
-  try{
-    const stdCount = await Student.countDocuments({courseName: subject});
+  try {
+    const stdCount = await Student.countDocuments({ courseName: subject });
     console.log(stdCount);
     res.json(stdCount);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+app.get('/student/admin/:std', async(req,res) => {
+  const student = req.params.std;
+  console.log(student);
+  try{
+    const resCount = await Student.countDocuments({stdName: student});
+    console.log(resCount);
+    res.json(resCount);
   }catch(err){
     console.log(err);
   }
 })
 
-
+app.get('/studentList', async(req,res) => {
+  const stdList = await StudentIDModel.find();
+  console.log(stdList);
+  res.json(stdList);
+})
 
 app.listen(port, () => {
   console.log(`Express Listening on ${port}`);

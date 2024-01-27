@@ -17,7 +17,8 @@ const Auth = ({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
       if(res !== "Wrong password") {
         setIsAuth(true);
         // setWrong(false);
-        setStdName(res.StdName);
+        setStdName(res[0].StdName);
+        console.log(stdName);
         localStorage.setItem('isAuth', true);
         localStorage.setItem('studentId', regNo);
       } else {
