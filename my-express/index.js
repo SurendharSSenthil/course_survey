@@ -10,6 +10,11 @@ const port = 3001;
 app.use(bodyParser.json());
 app.use(cors());
 
+if (!process.env.MONGODB_CONNECTION_STRING) {
+  console.error('MONGODB_CONNECTION_STRING is not set. Please set it in your environment.');
+  process.exit(1);
+}
+
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
   useNewUrlParser: true,
   useUnifiedTopology: true,

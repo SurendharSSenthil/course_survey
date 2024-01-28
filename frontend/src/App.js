@@ -28,7 +28,7 @@ const App = () => {
           element={isAuth ? <Main regNo={regNo} setRegNo={setRegNo} dob={dob} setDob={setDob} isAuth={isAuth} setIsAuth={setIsAuth} stdName={stdName} setStdName={setStdName}/> : <Navigate to='/'/>}
         />
         <Route
-          path='/admin'
+          path='/admin1'
           element={<Admin/>}
         />
         <Route

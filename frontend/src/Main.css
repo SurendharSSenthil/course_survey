@@ -82,9 +82,13 @@ h1 {
 .table th {
   background-color: #007bff;
   color: #fff;
+  text-align: center;
   font-size: 20px;
 }
 
+#center{
+  text-align: center;
+}
 .even-row {
   background-color: #f8f9fa;
 }
@@ -92,6 +96,7 @@ h1 {
 .odd-row {
   background-color: #fff;
 }
+
 
 button {
   background-color: #007bff;

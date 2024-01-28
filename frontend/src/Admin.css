@@ -1,0 +1,18 @@
+#category-average{
+    color: rgb(0, 21, 255);
+}
+
+#overall-average{
+    color: rgb(255, 0, 0);
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+    color: rgb(93, 42, 165);
+    margin: 5px;
+}
+
+.table{
+    margin-top: 0;
+}

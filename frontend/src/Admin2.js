@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './Main.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Admin2 = () => {
     const [std, setStd] = useState([]);
@@ -35,12 +36,12 @@ const Admin2 = () => {
     }, []);
 
     return (
-        <table className="table">
+        <table className='table table-bordered table-striped'>
             <thead>
                 <tr>
                     <th>Register No</th>
                     <th>Student Name</th>
-                    <th>No of Courses Submitted</th>
+                    <th>Number of Courses Submitted</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,7 +49,7 @@ const Admin2 = () => {
                     <tr key={student.RegNo}>
                         <td>{student.RegNo}</td>
                         <td>{student.Name}</td>
-                        <td>{student.CoursesSubmitted}</td>
+                        <td id="center">{student.CoursesSubmitted}</td>
                     </tr>
                 ))}
             </tbody>

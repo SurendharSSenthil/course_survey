@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './Admin.css';
 
 const Admin = () => {
     const subjects = ["Probability,Statistics and Queuing Theory", "Digital Systems", "Discrete Structures","Data Structures","Foundations of Data Science","Object Oriented Programming","Engineering Exploration","Digital Systems Laboratory","Data Structures Laboratory"];
@@ -84,16 +85,30 @@ const Admin = () => {
     };
 
     return (
+        <>
+        <h3>Course Feedback Summary</h3>
         <table className='table table-bordered table-striped'>
             <thead>
                 <tr>
                     <th>Course Name</th>
                     {categories.map((category, index) => (
-                        <th key={index}>{category}</th>
+                        <th key={index} colSpan="2">{category}</th>
                     ))}
-                    <th>No of Students</th>
+                    <th>Total Students</th>
                     <th>Total</th>
                     <th>Average</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    {categories.map((category, index) => (
+                        <React.Fragment key={index}>
+                            <th>Total</th>
+                            <th>Avg</th>
+                        </React.Fragment>
+                    ))}
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -101,15 +116,19 @@ const Admin = () => {
                     <tr key={rowIndex}>
                         <td>{subject}</td>
                         {categories.map((category, colIndex) => (
-                            <td key={colIndex}>{marks[`${subject}-${category}`]}</td>
+                            <React.Fragment key={colIndex}>
+                                <td>{marks[`${subject}-${category}`]}</td>
+                                <td id="category-average">{Math.round(marks[`${subject}-${category}`] / no[subject])}</td>
+                            </React.Fragment>
                         ))}
                         <td>{no[subject]}</td>
                         <td>{totRes(subject)}</td>
-                        <td>{average(subject)}</td>
+                        <td id="overall-average">{average(subject)}</td>
                     </tr>
                 ))}
             </tbody>
         </table>
+        </>
     );
 };
 

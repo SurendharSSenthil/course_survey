@@ -277,7 +277,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
                       <tr key={question.qid} className={question.qid % 2 === 0 ? 'even-row' : 'odd-row'}>
                         <td>{question.question}</td>
                         {question.qoption.map((option) => (
-                          <td key={option}>
+                          <td key={option} id="center">
                             <input
                               type='radio'
                               name={`quest ion_${question.qid}`}
