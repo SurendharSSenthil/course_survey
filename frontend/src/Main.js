@@ -6,6 +6,7 @@ import { faCheckCircle, faEnvelope, faPhone, faThumbsUp } from "@fortawesome/fre
 import Sem from "./Sem";
 import Student from "./Student";
 import DropdownPart from "./DropdownPart";
+import {url} from './url';
 
 
 function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdName}) {
@@ -114,7 +115,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
       const fetchStudentData = async () => {
         try {
           setRegNo(storedStudentId);
-          const response = await fetch(`http://localhost:3001/api/student/${storedStudentId}`);
+          const response = await fetch(`${url}/student/${storedStudentId}`);
 
           if (response.ok) {
             const studentData = await response.json();
@@ -158,7 +159,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
       return;
     }
     else{
-    fetch('http://localhost:3001/api/submit-form', {
+    fetch(`${url}/submit-form`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

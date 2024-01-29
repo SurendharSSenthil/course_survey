@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './Main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {url} from './url';
 
 const Admin2 = () => {
     const [std, setStd] = useState([]);
@@ -8,13 +9,13 @@ const Admin2 = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const stdListResponse = await fetch('http://localhost:3001/api/studentList');
+                const stdListResponse = await fetch(`${url}/studentList`);
                 const stdList = await stdListResponse.json();
                 console.log(stdList);
 
                 const studentsWithCourses = await Promise.all(
                     stdList.map(async (student) => {
-                        const res = await fetch(`http://localhost:3001/api/student/admin/${student.StdName}`);
+                        const res = await fetch(`${url}/student/admin/${student.StdName}`);
                         const courses = await res.json();
                         console.log(courses);
 

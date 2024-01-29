@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Admin.css';
+import { url } from './url';
 
 const Admin = () => {
     const subjects = ["Probability,Statistics and Queuing Theory", "Digital Systems", "Discrete Structures","Data Structures","Foundations of Data Science","Object Oriented Programming","Engineering Exploration","Digital Systems Laboratory","Data Structures Laboratory"];
@@ -11,7 +12,7 @@ const Admin = () => {
 
     const fetchCourseMark = async (sub, category) => {
         try {
-            const response = await fetch(`http://localhost:3001/api/dashboard`, {
+            const response = await fetch(`${url}/dashboard`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -33,7 +34,7 @@ const Admin = () => {
 
     const fetchStdCount = async (sub) => {
         try {
-            const response = await fetch(`http://localhost:3001/api/student/${sub}`);
+            const response = await fetch(`${url}/students/${sub}`);
             const data = await response.json();
             console.log(data);
             return data;

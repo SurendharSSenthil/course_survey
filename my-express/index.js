@@ -215,7 +215,7 @@ app.post('/api/dashboard', async (req, res) => {
   }
 });
 
-app.get('/api/student/:sub', async (req, res) => {
+app.get('/api/students/:sub', async (req, res) => {
   const subject = req.params.sub;
   console.log(subject);
   try {

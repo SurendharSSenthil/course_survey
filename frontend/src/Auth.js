@@ -1,11 +1,12 @@
 import React from "react";
 import './Auth.css';
+import {url} from './url';
 
 const Auth = ({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdName}) => { 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:3001/api/studentID', {
+    fetch(`${url}/studentID`, {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json',
