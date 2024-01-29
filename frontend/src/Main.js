@@ -158,7 +158,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
       return;
     }
     else{
-    fetch('http://localhost:3001/submit-form', {
+    fetch('http://localhost:3001/api/submit-form', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

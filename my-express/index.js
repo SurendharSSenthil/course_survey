@@ -115,7 +115,7 @@ app.get('/api/student/:id', async (req, res) => {
 });
 
 
-app.post('/submit-form', async (req, res) => {
+app.post('/api/submit-form', async (req, res) => {
   const formData = req.body;
   console.log(formData);
 
@@ -150,7 +150,7 @@ app.post('/submit-form', async (req, res) => {
   }
 });
 
-app.post('/dashboard', async (req, res) => {
+app.post('/api/dashboard', async (req, res) => {
   const reqData = req.body;
 
   try {
@@ -215,7 +215,7 @@ app.post('/dashboard', async (req, res) => {
   }
 });
 
-app.get('/student/:sub', async (req, res) => {
+app.get('/api/student/:sub', async (req, res) => {
   const subject = req.params.sub;
   console.log(subject);
   try {
@@ -227,7 +227,7 @@ app.get('/student/:sub', async (req, res) => {
   }
 })
 
-app.get('/student/admin/:std', async(req,res) => {
+app.get('/api/student/admin/:std', async(req,res) => {
   const student = req.params.std;
   console.log(student);
   try{
@@ -239,7 +239,7 @@ app.get('/student/admin/:std', async(req,res) => {
   }
 })
 
-app.get('/studentList', async(req,res) => {
+app.get('/api/studentList', async(req,res) => {
   const stdList = await StudentIDModel.find();
   console.log(stdList);
   res.json(stdList);

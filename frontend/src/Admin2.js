@@ -8,13 +8,13 @@ const Admin2 = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const stdListResponse = await fetch('http://localhost:3001/studentList');
+                const stdListResponse = await fetch('http://localhost:3001/api/studentList');
                 const stdList = await stdListResponse.json();
                 console.log(stdList);
 
                 const studentsWithCourses = await Promise.all(
                     stdList.map(async (student) => {
-                        const res = await fetch(`http://localhost:3001/student/admin/${student.StdName}`);
+                        const res = await fetch(`http://localhost:3001/api/student/admin/${student.StdName}`);
                         const courses = await res.json();
                         console.log(courses);
 

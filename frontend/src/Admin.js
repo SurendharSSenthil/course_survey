@@ -11,7 +11,7 @@ const Admin = () => {
 
     const fetchCourseMark = async (sub, category) => {
         try {
-            const response = await fetch(`http://localhost:3001/dashboard`, {
+            const response = await fetch(`http://localhost:3001/api/dashboard`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
@@ -33,7 +33,7 @@ const Admin = () => {
 
     const fetchStdCount = async (sub) => {
         try {
-            const response = await fetch(`http://localhost:3001/student/${sub}`);
+            const response = await fetch(`http://localhost:3001/api/student/${sub}`);
             const data = await response.json();
             console.log(data);
             return data;
@@ -118,7 +118,7 @@ const Admin = () => {
                         {categories.map((category, colIndex) => (
                             <React.Fragment key={colIndex}>
                                 <td>{marks[`${subject}-${category}`]}</td>
-                                <td id="category-average">{Math.round(marks[`${subject}-${category}`] / no[subject])}</td>
+                                <td id="category-average">{(marks[`${subject}-${category}`] / no[subject]).toFixed(2)}</td>
                             </React.Fragment>
                         ))}
                         <td>{no[subject]}</td>
