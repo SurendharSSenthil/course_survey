@@ -16,3 +16,8 @@ h3{
 .table{
     margin-top: 0;
 }
+
+#spin{
+    padding: 20px;
+    text-align: center;
+}

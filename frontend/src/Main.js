@@ -19,6 +19,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
   const [email, setEmail] = useState("");
   const [phNo, setPhNo] = useState("");
   const [duplicate, setDuplicate] = useState(false);
+  const [ret,setRet] = useState(false);
 
   const courses = {
     'Probability,Statistics and Queuing Theory': '22SPC308',
@@ -124,6 +125,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
               setStdName(studentData.stdName);
               setEmail(studentData.email);
               setPhNo(studentData.phNo);
+              setRet(true);
               console.log(stdName);
             }
           }
@@ -134,8 +136,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
 
       fetchStudentData();
     } 
-    
-  });
+  },[]);
 
 
   const handleOptionChange = (id, question, selectedOption) => {
@@ -222,7 +223,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
           (
             <div>
               <form onSubmit={handleSubmit} className='formcard'>
-                <Student stdName={stdName} setStdName={setStdName} regNo={regNo} setRegNo={setRegNo} />
+                <Student stdName={stdName} setStdName={setStdName} regNo={regNo} setRegNo={setRegNo} ret = {ret} setRet={setRet} />
                 <div className='form-group'>
                   <label htmlFor='email'>
                     <FontAwesomeIcon icon={faEnvelope} className='fontIcon' />
@@ -236,6 +237,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    disabled = {ret}
                   />
                 </div>
 
@@ -252,6 +254,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
                     value={phNo}
                     onChange={(e) => setPhNo(e.target.value)}
                     required
+                    disabled = {ret}
                   />
                 </div>
 

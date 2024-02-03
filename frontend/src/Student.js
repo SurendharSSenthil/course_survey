@@ -1,7 +1,7 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Student({ stdName, setStdName, regNo, setRegNo }) {
+function Student({ stdName, setStdName, regNo, setRegNo, ret, setRet }) {
   const handleNameChange = (e) => {
     setStdName(e.target.value);
     console.log(stdName);
@@ -21,6 +21,7 @@ function Student({ stdName, setStdName, regNo, setRegNo }) {
               value={stdName}
               required
               onChange={(e) => handleNameChange(e)}
+              disabled={ret}
             />
           </div>
         </div>

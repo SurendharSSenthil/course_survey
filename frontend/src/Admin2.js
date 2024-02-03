@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import './Main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {url} from './url';
+import { url } from './url';
+import { Table,Spin } from 'antd';
+// import 'antd/dist/antd.css';
 
 const Admin2 = () => {
     const [std, setStd] = useState([]);
-
+    const [loading,setLoading] = useState(true);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -28,6 +30,7 @@ const Admin2 = () => {
                 );
 
                 setStd(studentsWithCourses);
+                setLoading(false);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -36,25 +39,33 @@ const Admin2 = () => {
         fetchData();
     }, []);
 
+    const columns = [
+        {
+            title: 'Register No',
+            dataIndex: 'RegNo',
+            key: 'RegNo',
+        },
+        {
+            title: 'Student Name',
+            dataIndex: 'Name',
+            key: 'Name',
+        },
+        {
+            title: 'Number of Courses Submitted',
+            dataIndex: 'CoursesSubmitted',
+            key: 'CoursesSubmitted',
+            render: (text) => <div>{text}</div>,
+        },
+    ];
+
     return (
-        <table className='table table-bordered table-striped'>
-            <thead>
-                <tr>
-                    <th>Register No</th>
-                    <th>Student Name</th>
-                    <th>Number of Courses Submitted</th>
-                </tr>
-            </thead>
-            <tbody>
-                {std.map((student) => (
-                    <tr key={student.RegNo}>
-                        <td>{student.RegNo}</td>
-                        <td>{student.Name}</td>
-                        <td id="center">{student.CoursesSubmitted}</td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+        <>
+        <h3>Feedback submission</h3>
+        {
+            loading ? (<div id="spin"><Spin size="large"></Spin></div>) : (
+            <Table dataSource={std} columns={columns} />)
+        }
+        </>
     );
 };
 

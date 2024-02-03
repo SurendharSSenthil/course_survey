@@ -149,19 +149,25 @@ button:hover {
   .info {
     text-align: center;
   }
-
+body{
+  background-color: #fff;
+}
   .form-group input {
     width: calc(100% - 20px);
   }
 
   table{
-    overflow-x: scroll;
+    overflow-x: auto;
+    background-color: #fff;
   }
   .table th,
   .table td {
     padding: 8px; 
   }
   .table th{
+    font-size: 16px;
+  }
+  .table td{
     font-size: 16px;
   }
   button{
