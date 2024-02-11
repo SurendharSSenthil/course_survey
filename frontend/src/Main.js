@@ -6,10 +6,10 @@ import { faCheckCircle, faEnvelope, faPhone, faThumbsUp } from "@fortawesome/fre
 import Sem from "./Sem";
 import Student from "./Student";
 import DropdownPart from "./DropdownPart";
-import {url} from './url';
+import { url } from './url';
 
 
-function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdName}) {
+function Main({ regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdName }) {
   const [updated, setUpdated] = useState(false);
   const [responses, setResponses] = useState([]);
   const [courseName, setCourseName] = useState("");
@@ -19,8 +19,9 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
   const [email, setEmail] = useState("");
   const [phNo, setPhNo] = useState("");
   const [duplicate, setDuplicate] = useState(false);
-  const [ret,setRet] = useState(false);
-
+  const [ret, setRet] = useState(false);
+  const [question, setQuestion] = useState([]);
+  const [table, setTable] = useState(false);
   const courses = {
     'Probability,Statistics and Queuing Theory': '22SPC308',
     'Digital Systems': '22SES306',
@@ -45,72 +46,9 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
     'Data Structures Laboratory': 'Dr.R.Muthuram,ASP/CSE,Dr.T.Rajasenbagam,AP/CSE,Prof.C.Gayathri,AP(Cont)/CSE,Prof.G.Poovila,AP(Cont)/CSE'
   };
 
-  const questions = [
-    {
-      qid: 1, question: "Teacher comes to the class in time ", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 2 , question: "Teaching is well planned ", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 3 , question: "Aim/Objectives made clear ", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 4 , question: "Subject matter organised in logical sequence", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 5 , question: "Teacher comes well prepared in the subject  ", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 6 , question: "Teacher speaks clearly and audibly ", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 7 , question: "Teacher writes and draws legibly ", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 8 , question: "Teacher provides examples of concepts/principles.Explanations are clear and effective", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 9 , question: "Teacher's pace and level of instruction are suited to the attainment of students", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 10 , question: "Teacher offers assistance and counselling to the eed students", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 11 , question: "Teacher asks questions to promote interaction and reflective thinking", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 12 , question: "Teacher encourages questioning/raising doubts by students and answers them well", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 13 , question: "Teaches and shares learner activity and problem solving everything in the class ", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 14 , question: "Teacher encourages, compliments and praises originally and creativity displayed by the student ", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 15 , question: "Teacher is courteous and impartial in dealing with the students", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 16 , question: "Teacher engages classes regularly and maintains discipline ", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 17 , question: "Teacher covers the syllabus completely and at appropriate pace ", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 18 , question: "Teacher holds test regularly which are helpful to students in building up confidence in the acquisition and application of knowledge", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 19 , question: "Teacher's marking of scripts is fair and impartial ", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    },
-    {
-      qid: 20 , question: "Teacher is prompt in valuing and returning the answer scripts providing feedback on performance ", qoption: ['Excellent', 'Very Good', 'Good', 'Fair', 'Satisfactory', 'Poor']
-    }
-  ]
-
   useEffect(() => {
     const storedStudentId = localStorage.getItem("studentId");
-    console.log(storedStudentId); 
+    console.log(storedStudentId);
 
     if (storedStudentId) {
       const fetchStudentData = async () => {
@@ -135,8 +73,8 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
       };
 
       fetchStudentData();
-    } 
-  },[]);
+    }
+  }, []);
 
 
   const handleOptionChange = (id, question, selectedOption) => {
@@ -155,17 +93,11 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!courseName || !email || !phNo || responses.length !== questions.length) {
+    if (!courseName || !email || !phNo || responses.length !== question.length) {
       alert("Please fill out all required fields and answer all questions.");
       return;
-    }
-    else{
-    fetch(`${url}/submit-form`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    } else {
+      const formData = {
         stdName,
         regNo,
         email,
@@ -175,24 +107,32 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
         sem,
         year,
         responses,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Response from server:', data);
-        if (data === "Duplicate Entry") {
-          setDuplicate(true);
-          setUpdated(false);
-        }else if(data === "Internal Server Error"){
-          alert("course is not selected!");
-        }
-        else {
-          setUpdated(true);
-        }
-      })
-      .catch(error => console.error('Error sending POST request:', error));
+      };
 
-    console.log('User responses:', responses);}
+      fetch(`${url}/submit-form`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Response from server:', data);
+          if (data === "Duplicate Entry") {
+            setDuplicate(true);
+            setUpdated(false);
+          } else if (data === "Internal Server Error") {
+            alert("course is not selected!");
+          }
+          else {
+            setUpdated(true);
+          }
+        })
+        .catch(error => console.error('Error sending POST request:', error));
+      setTable(false);
+      console.log('Form data sent to server:', formData);
+    }
   };
 
   const ReturnBtn = (e) => {
@@ -202,9 +142,20 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
     setResponses([]);
   }
 
+  const handleLogOut = () => {
+    localStorage.removeItem('studentId');
+    setIsAuth(false);
+    localStorage.removeItem('isAuth');
+    setRegNo("");
+    setDob("");
+  }
+
   return (
     <div>
-      <h1 className="topic">Evaluation Form</h1>
+      <div className="header">
+        <h1 className="topic">Evaluation Form</h1>
+        <button onClick={handleLogOut} className="logOut">Log Out</button>
+      </div>
       {updated ? (
         <div className='submitted'>
           <FontAwesomeIcon icon={faCheckCircle} beatFade size="lg" />
@@ -218,12 +169,12 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
             <div>
               {stdName} has already submitted the response for the {courseName}
             </div>
-            <button onClick={(e) => {ReturnBtn(e)}}>Back</button>
+            <button onClick={(e) => { ReturnBtn(e) }}>Back</button>
           </div>) :
           (
             <div>
               <form onSubmit={handleSubmit} className='formcard'>
-                <Student stdName={stdName} setStdName={setStdName} regNo={regNo} setRegNo={setRegNo} ret = {ret} setRet={setRet} />
+                <Student stdName={stdName} setStdName={setStdName} regNo={regNo} setRegNo={setRegNo} ret={ret} setRet={setRet} />
                 <div className='form-group'>
                   <label htmlFor='email'>
                     <FontAwesomeIcon icon={faEnvelope} className='fontIcon' />
@@ -237,7 +188,7 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    disabled = {ret}
+                    disabled={ret}
                   />
                 </div>
 
@@ -254,54 +205,80 @@ function Main({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
                     value={phNo}
                     onChange={(e) => setPhNo(e.target.value)}
                     required
-                    disabled = {ret}
+                    disabled={ret}
                   />
                 </div>
 
                 <div className='semOption'>
                   <Sem sem={sem} setSem={setSem} year={year} setYear={setYear} />
                 </div>
-                {sem === 'III' && <DropdownPart faculty={faculty}courseName={courseName} setCourseName={setCourseName} courses={courses} setCourseId={setCourseId} />}
+                {sem === 'III' && <DropdownPart faculty={faculty} courseName={courseName} setCourseName={setCourseName} courses={courses} setCourseId={setCourseId} questions={question} setQuestion={setQuestion} setTable={setTable}/>}
 
 
-                <table className='table table-bordered table-striped'>
+                {table && <table className='table table-bordered table-striped'>
                   <thead>
                     <tr>
-                      <th>Evaluation Question</th>
-                      <th>Excellent</th>
-                      <th>Very Good</th>
-                      <th>Good</th>
-                      <th>Fair</th>
-                      <th>Satisfactory</th>
-                      <th>Poor</th>
+                      <th>Questions</th>
+                      <th>Strongly agree</th>
+                      <th>Agree</th>
+                      <th>Neutral</th>
+                      <th>Disagree</th>
+                      <th>Strongly Disagree</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {questions.map((question) => (
+                    {question.map((question) => (
                       <tr key={question.qid} className={question.qid % 2 === 0 ? 'even-row' : 'odd-row'}>
                         <td>{question.question}</td>
-                        {question.qoption.map((option) => (
-                          <td key={option} id="center">
-                            <input
-                              type='radio'
-                              name={`quest ion_${question.qid}`}
-                              value={option}
-                              checked={responses.find((response) => response.qid === question.qid)?.response === option}
-                              onChange={() => handleOptionChange(question.qid, question.question, option)}
-                              required
-                            />
-                          </td>
-                        ))}
-
+                        <td>
+                          <input
+                            type="radio"
+                            name={`response-${question.qid}`}
+                            value="Strongly agree"
+                            onChange={(e) => handleOptionChange(question.qid, question.question, e.target.value)}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="radio"
+                            name={`response-${question.qid}`}
+                            value="Agree"
+                            onChange={(e) => handleOptionChange(question.qid, question.question, e.target.value)}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="radio"
+                            name={`response-${question.qid}`}
+                            value="Neutral"
+                            onChange={(e) => handleOptionChange(question.qid, question.question, e.target.value)}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="radio"
+                            name={`response-${question.qid}`}
+                            value="Disagree"
+                            onChange={(e) => handleOptionChange(question.qid, question.question, e.target.value)}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="radio"
+                            name={`response-${question.qid}`}
+                            value="Strongly Disagree"
+                            onChange={(e) => handleOptionChange(question.qid, question.question, e.target.value)}
+                          />
+                        </td>
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </table>}
                 <div className="d-flex">
-                <button type='submit' onClick={(e) => {handleSubmit(e)}}>Submit</button>
+                  <button type='submit' onClick={(e) => { handleSubmit(e) }}>Submit</button>
                 </div>
               </form>
-              
+
             </div>
           )
       )}

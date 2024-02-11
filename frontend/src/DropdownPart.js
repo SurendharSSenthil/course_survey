@@ -1,14 +1,20 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Row, Col, Card } from 'react-bootstrap';
+import {url} from './url';
 
-const DropdownPart = ({faculty, courseName, setCourseName, courses,setCourseId }) => {
+const DropdownPart = ({faculty, courseName, setCourseName, courses,setCourseId, questions, setQuestion, setTable }) => {
   async function handleOptionChange(e){
-   const cn = e.target.value;
-   await setCourseName(cn);
-   setCourseId(courses[cn]);
-   console.log(cn);
-   console.log(courses[cn]);
+   const coursename = e.target.value;
+   await setCourseName(coursename);
+   setCourseId(courses[coursename]);
+   console.log(coursename);
+   console.log(courses[coursename]);
+   const data = await fetch(`${url}/courses/${courses[coursename]}`);
+   const jsondata = await data.json();
+   setQuestion(jsondata.questions);
+   console.log(jsondata.questions);
+   setTable(true);
   };
 
   return (
@@ -25,7 +31,6 @@ const DropdownPart = ({faculty, courseName, setCourseName, courses,setCourseId }
               onChange={handleOptionChange}
               required
             >
-              <option value="">-- Select --</option>
               <option value="Probability,Statistics and Queuing Theory">Probability, Statistics and Random Processes</option>
               <option value="Digital Systems">Digital Systems</option>
               <option value="Discrete Structures">Discrete Structures</option>

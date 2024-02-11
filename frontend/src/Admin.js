@@ -1,25 +1,68 @@
 import React, { useEffect, useState } from "react";
-import { Table, Spin } from 'antd';
+import { Spin, Table } from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Admin.css';
 import { url } from './url';
 
 const Admin = () => {
-    const subjects = ["Probability,Statistics and Queuing Theory", "Digital Systems", "Discrete Structures", "Data Structures", "Foundations of Data Science", "Object Oriented Programming", "Engineering Exploration", "Digital Systems Laboratory", "Data Structures Laboratory"];
-    const categories = ["Planning and organization", "Presentation and Communication", "Student participation", "Class Management"];
-
     const [loading, setLoading] = useState(true);
-    const [marks, setMarks] = useState({});
+    const [courses, setCourses] = useState([]);
     const [no, setNo] = useState({});
+    const [marks, setMarks] = useState({});
+    const categories = ['CO1', 'CO2', 'CO3', 'CO4', 'CO5'];
 
-    const fetchCourseMark = async (sub, category) => {
+    useEffect(() => {
+        const fetchCourseData = async () => {
+            try {
+                const res = await fetch(`${url}/admin/courses`);
+                if (!res.ok) {
+                    throw new Error('Failed to fetch courses');
+                }
+                const data = await res.json();
+                console.log(data);
+                setCourses(data);
+            } catch (error) {
+                console.error('Error fetching courses:', error);
+            }
+        };
+        fetchCourseData();
+    }, []);
+
+    useEffect(() => {
+        const fetchMarksData = async () => {
+            try {
+                let markData = {};
+                let studentCountData = {};
+                for (const course of courses) {
+                    for (const category of categories) {
+                        const key = `${course.coursecode}-${category}`;
+                        markData[key] = await fetchMark(course.coursecode, category);
+                    }
+                    const studentCount = await fetchNoofStudents(course.coursecode);
+                    studentCountData[course.coursecode] = studentCount;
+                }
+                console.log(markData);
+                console.log(studentCountData);
+                setMarks(markData);
+                setNo(studentCountData);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        if (courses.length > 0) {
+            fetchMarksData();
+        }
+    }, [courses]);
+
+    const fetchMark = async (coursecode, category) => {
         try {
-            const response = await fetch(`${url}/dashboard`, {
+            const response = await fetch(`${url}/admin/markdata`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
                 },
-                body: JSON.stringify({ sub, category }),
+                body: JSON.stringify({ coursecode, category }),
             });
             const data = await response.json();
 
@@ -34,112 +77,74 @@ const Admin = () => {
         }
     };
 
-    const fetchStdCount = async (sub) => {
+    const fetchNoofStudents = async (coursecode) => {
         try {
-            const response = await fetch(`${url}/students/${sub}`);
+            const response = await fetch(`${url}/students/${coursecode}`);
             const data = await response.json();
             console.log(data);
             return data;
-        } catch (err) {
-            console.error(err);
+        } catch (error) {
+            console.error('Error fetching student count:', error);
             return 0;
         }
-    };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const marksData = {};
-            for (const subject of subjects) {
-                for (const category of categories) {
-                    const key = `${subject}-${category}`;
-                    marksData[key] = await fetchCourseMark(subject, category);
-                }
-            }
-            console.log(marksData);
-            setMarks(marksData);
-            setLoading(false);
-        };
-
-        const fetchStdCountData = async () => {
-            const stdCount = {};
-            for (const subject of subjects) {
-                stdCount[subject] = await fetchStdCount(subject);
-                console.log(stdCount[subject]);
-            }
-            console.log(stdCount);
-            setNo(stdCount);
-        };
-
-        fetchData();
-        fetchStdCountData();
-    }, []);
-
-    const totRes = (sub) => {
-        let tot = 0;
-        for (const category of categories) {
-            const key = `${sub}-${category}`;
-            tot += marks[key];
-        }
-        return tot;
-    };
-
-    const average = (sub) => {
-        if (no[sub] === 0 || isNaN(no[sub])) return 0;
-        return Math.round(totRes(sub) / no[sub]);
     };
 
     const columns = [
         {
             title: 'Course Name',
-            dataIndex: 'course',
-            key: 'course',
+            dataIndex: 'coursename',
+            key: 'coursename',
         },
-        ...categories.flatMap(category => ([
-            {
-                title: `${category}`,
-                dataIndex: `${category}Total`,
-                key: `${category}Total`,
-            },
-        ])),
+        ...categories.map(category => ({
+            title: `${category} - Total`,
+            dataIndex: `${category}-total`,
+            key: `${category}-total`,
+            render: (text, record) => (marks[`${record.coursecode}-${category}`] || 0)
+        })),
+        ...categories.map(category => ({
+            title: `${category} - Avg`,
+            dataIndex: `${category}-avg`,
+            key: `${category}-avg`,
+            render: (text, record) => (
+                no[record.coursecode] > 0 ? 
+                (marks[`${record.coursecode}-${category}`] / no[record.coursecode]).toFixed(1)
+                : 0
+            )
+        })),
         {
-            title: 'Total Students',
-            dataIndex: 'totalStudents',
-            key: 'totalStudents',
-        },
-        {
-            title: 'Total',
-            dataIndex: 'total',
-            key: 'total',
-        },
-        {
-            title: 'Average',
-            dataIndex: 'overallAvg',
-            key: 'overallAvg',
-        },
-    ];
+            title: 'No of Students',
+            dataIndex: 'noOfStudents',
+            key: 'noOfStudents',
+            render: (text, record) => (no[record.coursecode] || 0)
+        }
+    ];    
+    
 
-    const data = subjects.map((subject) => {
-        const row = {
-            key: subject,
-            course: subject,
-            totalStudents: no[subject],
-            total: totRes(subject),
-            overallAvg: average(subject),
-        };
-
-        categories.forEach((category) => {
-            const key = `${subject}-${category}`;
-            row[`${category}Total`] = marks[key];
+    const data = courses.map(course => {
+        const row = { key: course.coursecode, coursename: course.coursename, coursecode: course.coursecode };
+        categories.forEach(category => {
+            row[`${category}-total`] = '';
+            row[`${category}-avg`] = '';
         });
-
         return row;
     });
+
     return (
-        <>
-            <h3>Course Feedback Summary</h3>
-            { loading ? (<div id="spin"><Spin size="large" /></div>) :
-            (<Table dataSource={data} columns={columns} />)}
-        </>
+        <div className="admin-container">
+            <h3>Course End Survey Summary</h3>
+            {loading ? (
+                <div id="spin"><Spin size="large"></Spin></div>
+            ) : (
+                <div>
+                    <Table dataSource={data} columns={columns} />
+                    <div id="footer">
+                        <div id="designation">Faculty Advisor</div>
+                        <div id="designation">Course Coordinator</div>
+                        <div id="designation">Head Of the Department</div>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 

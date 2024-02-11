@@ -17,7 +17,7 @@ const Admin2 = () => {
 
                 const studentsWithCourses = await Promise.all(
                     stdList.map(async (student) => {
-                        const res = await fetch(`${url}/student/admin/${student.StdName}`);
+                        const res = await fetch(`${url}/student/admin/${student.RegNo}`);
                         const courses = await res.json();
                         console.log(courses);
 

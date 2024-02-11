@@ -5,6 +5,7 @@ import Auth from './Auth';
 import Main from './Main';
 import Admin from './Admin';
 import Admin2 from './Admin2';
+import Admin1 from './Admin1';
 
 const App = () => {
   const [isAuth, setIsAuth] = useState(() => {
@@ -34,6 +35,10 @@ const App = () => {
         <Route
           path='/admin1'
           element={<Admin2/>}
+        />
+        <Route
+          path='/admin2'
+          element={<Admin1/>}
         />
       </Routes>
     </Router>
