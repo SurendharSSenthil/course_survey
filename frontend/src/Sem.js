@@ -1,9 +1,10 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Sem({ sem, setSem, year, setYear }) {
+function Sem({ sem, setSem, year, setYear, setTable }) {
   const handleChange = (e) => {
     setSem(e.target.value);
+    setTable(false);
   }
 
   return (
@@ -31,6 +32,8 @@ function Sem({ sem, setSem, year, setYear }) {
           >
             <option value="III">III</option>
             <option value="IV">IV</option>
+            <option value="V">V</option>
+            <option value="VI">VI</option>
           </select>
         </div>
       </div>

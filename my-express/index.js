@@ -5,7 +5,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 
 const app = express();
-const port = 3001;
+const port = 4000;
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -45,8 +45,36 @@ const courseListSchema = new mongoose.Schema({
   questions: [questionschema]
 });
 
-
-
+const studentSchema1 = new mongoose.Schema({
+  stdName: {
+    type: String,
+    required: true,
+  },
+  stdId: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  phNo: {
+    type: String,
+    required: true,
+  },
+  sem: {
+    type: String,
+    required: true,
+  },
+  year: {
+    type: Number,
+    required: true,
+  },
+  courselist:{
+    type: Object,
+    required: true,
+  },
+});
 
 const studentSchema = new mongoose.Schema({
   stdName: {
@@ -78,7 +106,7 @@ const studentSchema = new mongoose.Schema({
     required: true,
   },
   year: {
-    type: Number,
+    type: String,
     required: true,
   },
   responses: {
@@ -87,10 +115,10 @@ const studentSchema = new mongoose.Schema({
   },
 });
 
-const Student1 = mongoose.model('students',studentSchema);
-const Student = mongoose.model('coursesurvey', studentSchema);
-const StudentIDModel = mongoose.model('nameList', nameList);
-const coursesModel = mongoose.model('courseList', courseListSchema);
+const Student1 = mongoose.model('IIIyrstudent',studentSchema1);
+const Student = mongoose.model('IIIyrresponse', studentSchema);
+const StudentIDModel = mongoose.model('IIIyrnameList', nameList);
+const coursesModel = mongoose.model('IIIyrcourselist', courseListSchema);
 
 //forLogin checking
 app.post('/api/studentID', async (req, res) => {
@@ -118,7 +146,7 @@ app.get('/api/student/:id', async (req, res) => {
   console.log(studentId);
   try {
     const studentData = await Student1.findOne({ stdId: studentId });
-    //console.log(studentData);
+    console.log(studentData);
     if (studentData) {
       res.json(studentData);
     }
@@ -131,6 +159,8 @@ app.get('/api/student/:id', async (req, res) => {
   }
 });
 
+
+//question for each course
 app.get('/api/courses/:course', async(req,res) => {
   try{
       const coursecode = req.params.course;
@@ -198,6 +228,7 @@ app.post('/api/admin/markdata', async (req, res) => {
       case 'CO3': qid = 3;break;
       case 'CO4': qid = 4;break;
       case 'CO5': qid = 5;break;
+      case 'CO6': qid = 6;break;
     }
     const responses = await Student.aggregate([
       {

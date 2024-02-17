@@ -9,7 +9,7 @@ const Admin = () => {
     const [courses, setCourses] = useState([]);
     const [no, setNo] = useState({});
     const [marks, setMarks] = useState({});
-    const categories = ['CO1', 'CO2', 'CO3', 'CO4', 'CO5'];
+    const categories = ['CO1', 'CO2', 'CO3', 'CO4', 'CO5', 'CO6'];
 
     useEffect(() => {
         const fetchCourseData = async () => {
@@ -136,7 +136,7 @@ const Admin = () => {
                 <div id="spin"><Spin size="large"></Spin></div>
             ) : (
                 <div>
-                    <Table dataSource={data} columns={columns} />
+                    <Table dataSource={data} columns={columns} pagination={false}/>
                     <div id="footer">
                         <div id="designation">Faculty Advisor</div>
                         <div id="designation">Course Coordinator</div>

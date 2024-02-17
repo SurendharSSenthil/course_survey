@@ -1,20 +1,18 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Row, Col, Card } from 'react-bootstrap';
-import {url} from './url';
+import { url } from './url';
 
-const DropdownPart = ({faculty, courseName, setCourseName, courses,setCourseId, questions, setQuestion, setTable }) => {
-  async function handleOptionChange(e){
-   const coursename = e.target.value;
-   await setCourseName(coursename);
-   setCourseId(courses[coursename]);
-   console.log(coursename);
-   console.log(courses[coursename]);
-   const data = await fetch(`${url}/courses/${courses[coursename]}`);
-   const jsondata = await data.json();
-   setQuestion(jsondata.questions);
-   console.log(jsondata.questions);
-   setTable(true);
+const DropdownPart = ({ courseName, setCourseName, courses, courseId, setCourseId, questions, setQuestion, setTable }) => {
+  async function handleOptionChange(e) {
+    const coursecode = e.target.value;
+    await setCourseName(courses[coursecode]);
+    setCourseId(coursecode);
+    console.log(coursecode);
+    const data = await fetch(`${url}/courses/${coursecode}`);
+    const jsondata = await data.json();
+    setQuestion(jsondata.questions);
+    setTable(true);
   };
 
   return (
@@ -27,19 +25,13 @@ const DropdownPart = ({faculty, courseName, setCourseName, courses,setCourseId, 
           <Col sm="10">
             <Form.Select
               className="form-select select-dropdown"
-              value={courseName}
+              value={courseId}
               onChange={handleOptionChange}
               required
             >
-              <option value="Probability,Statistics and Queuing Theory">Probability, Statistics and Random Processes</option>
-              <option value="Digital Systems">Digital Systems</option>
-              <option value="Discrete Structures">Discrete Structures</option>
-              <option value="Data Structures">Data Structures</option>
-              <option value="Foundations of Data Science">Foundations of Data Science</option>
-              <option value="Object Oriented Programming">Object Oriented Programming</option>
-              <option value="Engineering Exploration">Engineering Exploration</option>
-              <option value="Digital Systems Laboratory">Digital Systems Laboratory</option>
-              <option value="Data Structures Laboratory">Data Structures Laboratory</option>
+              {Object.entries(courses).map(([courseCode, coursename]) => (
+                <option key={courseCode} value={courseCode}>{coursename}</option>
+              ))}
             </Form.Select>
           </Col>
         </Row>
@@ -47,10 +39,9 @@ const DropdownPart = ({faculty, courseName, setCourseName, courses,setCourseId, 
 
       {courseName && (
         <div className="selected-info mt-4">
-          <h5 className="mb-3">Selected Course Information:</h5>
+          {/* <h5 className="mb-3">Selected Course Information:</h5> */}
           <p className="course-info"><strong>Course Name:</strong> {courseName}</p>
-          <p className="course-info"><strong>Course Code:</strong> {courses[courseName]}</p>
-          <p className="course-info"><strong>Faculty:</strong> {faculty[courseName]}</p>
+          <p className="course-info"><strong>Course Code:</strong> {courseId}</p>
         </div>
       )}
     </Card>
