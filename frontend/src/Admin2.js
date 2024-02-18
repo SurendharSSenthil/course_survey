@@ -13,7 +13,6 @@ const Admin2 = () => {
             try {
                 const stdListResponse = await fetch(`${url}/studentList`);
                 const stdList = await stdListResponse.json();
-                console.log(stdList);
 
                 const studentsWithCourses = await Promise.all(
                     stdList.map(async (student) => {

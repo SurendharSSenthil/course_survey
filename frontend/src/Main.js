@@ -43,7 +43,7 @@ function Main({ regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStd
               setPhNo(studentData.phNo);
               setCourses(studentData.courselist);
               setRet(true);
-              console.log(stdName);
+              console.log(studentData.courselist);
             }
           }
         } catch (error) {
