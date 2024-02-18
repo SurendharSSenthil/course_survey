@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
+// const cors = require('cors');
 require('dotenv').config();
 const mongoose = require('mongoose');
 
@@ -8,7 +8,7 @@ const app = express();
 const port = 4000;
 
 app.use(bodyParser.json());
-app.use(cors());
+// app.use(cors());
 
 if (!process.env.MONGODB_CONNECTION_STRING) {
   console.error('MONGODB_CONNECTION_STRING is not set. Please set it in your environment.');
