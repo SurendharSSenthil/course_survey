@@ -14,7 +14,7 @@ function Main({ regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStd
   const [responses, setResponses] = useState([]);
   const [courseName, setCourseName] = useState("");
   const [courseId, setCourseId] = useState("");
-  const [sem, setSem] = useState('V');
+  const [sem, setSem] = useState('');
   const [year, setYear] = useState('III');
   const [email, setEmail] = useState("");
   const [phNo, setPhNo] = useState("");
@@ -23,7 +23,7 @@ function Main({ regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStd
   const [question, setQuestion] = useState([]);
   const [table, setTable] = useState(false);
   const [courses,setCourses] = useState([]);
-
+  const [flag,setFlag] = useState('');
   useEffect(() => {
     const storedStudentId = localStorage.getItem("studentId");
     console.log(storedStudentId);
@@ -42,6 +42,10 @@ function Main({ regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStd
               setEmail(studentData.email);
               setPhNo(studentData.phNo);
               setCourses(studentData.courselist);
+              setSem(studentData.sem);
+              setYear(studentData.year);
+              console.log(studentData.year);
+              setFlag(studentData.sem);
               setRet(true);
               console.log(studentData.courselist);
             }
@@ -89,7 +93,7 @@ function Main({ regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStd
         responses,
       };
 
-      fetch(`${url}/submit-form`, {
+      fetch(`${url}/student/submit-form`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -190,9 +194,9 @@ function Main({ regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStd
                 </div>
 
                 <div className='semOption'>
-                  <Sem sem={sem} setSem={setSem} year={year} setYear={setYear} setTable={setTable}/>
+                  <Sem sem={sem} setSem={setSem} year={year} setYear={setYear} setTable={setTable} flag={flag}/>
                 </div>
-                {sem === 'V' && <DropdownPart courseName={courseName} setCourseName={setCourseName} courses={courses} courseId={courseId} setCourseId={setCourseId} questions={question} setQuestion={setQuestion} setTable={setTable}/>}
+                {flag === sem && <DropdownPart courseName={courseName} setCourseName={setCourseName} courses={courses} courseId={courseId} setCourseId={setCourseId} questions={question} setQuestion={setQuestion} setTable={setTable}/>}
 
 
                 {table && <table className='table table-bordered table-striped'>

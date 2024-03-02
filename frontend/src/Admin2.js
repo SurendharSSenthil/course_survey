@@ -1,28 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import './Main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { url } from './url';
-import { Table,Spin } from 'antd';
+import { Table,Spin,notification } from 'antd';
 // import 'antd/dist/antd.css';
 
 const Admin2 = () => {
     const [std, setStd] = useState([]);
-    const [loading,setLoading] = useState(true);
-    useEffect(() => {
-        const fetchData = async () => {
+    const [loading,setLoading] = useState(false);
+    
+        const fetchData = async (e) => {
+            setLoading(true);
             try {
-                const stdListResponse = await fetch(`${url}/studentList`);
+                const stdListResponse = await fetch(`${url}/admin/studentList/${e.target.value}`);
                 const stdList = await stdListResponse.json();
-
+                if(!(stdList.length > 0)){
+                    setLoading(false);
+                    setStd([]);
+                    notification.info({
+                        message: 'No response Found',
+                        description: `No students in sem ${e.target.value}`,
+                    });
+                }
+                else{
                 const studentsWithCourses = await Promise.all(
                     stdList.map(async (student) => {
-                        const res = await fetch(`${url}/student/admin/${student.RegNo}`);
+                        const res = await fetch(`${url}/student/submission/${student.stdId}`);
                         const courses = await res.json();
                         console.log(courses);
 
                         return {
-                            RegNo: student.RegNo,
-                            Name: student.StdName,
+                            RegNo: student.stdId,
+                            Name: student.stdName,
                             CoursesSubmitted: courses
                         };
                     })
@@ -30,13 +39,12 @@ const Admin2 = () => {
 
                 setStd(studentsWithCourses);
                 setLoading(false);
+            }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
 
-        fetchData();
-    }, []);
 
     const columns = [
         {
@@ -60,9 +68,27 @@ const Admin2 = () => {
     return (
         <>
         <h3>Feedback submission</h3>
+        <div className="selectDiv">
+            <label className="divLabel">Select the Semester : </label>
+            <select
+                id="sem"
+                className="form-control admin-page"
+                onChange={fetchData}
+            >
+                <option value="I">I</option>
+                <option value="II">II</option>
+                <option value="III">III</option>
+                <option value="IV">IV</option>
+                <option value="V">V</option>
+                <option value="VI">VI</option>
+                <option value="VII">VII</option>
+                <option value="VIII">VIII</option>
+            </select>
+          </div>
         {
-            loading ? (<div id="spin"><Spin size="large"></Spin></div>) : (
-            <Table dataSource={std} columns={columns} />)
+            loading ? (<div id="spin"><Spin size="large"></Spin></div>) : 
+            std.length>0 ? (
+            <Table dataSource={std} columns={columns} />) : <></>
         }
         </>
     );

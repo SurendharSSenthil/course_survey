@@ -5,14 +5,18 @@ import { url } from './url';
 
 const DropdownPart = ({ courseName, setCourseName, courses, courseId, setCourseId, questions, setQuestion, setTable }) => {
   async function handleOptionChange(e) {
-    const coursecode = e.target.value;
-    await setCourseName(courses[coursecode]);
-    setCourseId(coursecode);
-    console.log(coursecode);
-    const data = await fetch(`${url}/courses/${coursecode}`);
-    const jsondata = await data.json();
-    setQuestion(jsondata.questions);
-    setTable(true);
+    if(e.target.value==="") return;
+    else
+      {
+        const coursecode = e.target.value;
+        await setCourseName(courses[coursecode]);
+        setCourseId(coursecode);
+        console.log(coursecode);
+        const data = await fetch(`${url}/student/courses/${coursecode}`);
+        const jsondata = await data.json();
+        setQuestion(jsondata.questions);
+        setTable(true);
+      }
   };
 
   return (
@@ -29,6 +33,7 @@ const DropdownPart = ({ courseName, setCourseName, courses, courseId, setCourseI
               onChange={handleOptionChange}
               required
             >
+              <option value="">--Select--</option>
               {Object.entries(courses).map(([courseCode, coursename]) => (
                 <option key={courseCode} value={courseCode}>{coursename}</option>
               ))}

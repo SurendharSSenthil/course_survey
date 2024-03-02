@@ -79,7 +79,7 @@ const Admin = () => {
 
     const fetchNoofStudents = async (coursecode) => {
         try {
-            const response = await fetch(`${url}/students/${coursecode}`);
+            const response = await fetch(`${url}/admin/${coursecode}`);
             const data = await response.json();
             console.log(data);
             return data;

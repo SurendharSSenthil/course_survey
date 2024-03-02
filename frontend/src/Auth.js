@@ -6,7 +6,7 @@ const Auth = ({regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdN
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`${url}/studentID`, {
+    fetch(`${url}/student/auth`, {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json',
