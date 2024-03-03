@@ -64,7 +64,6 @@ exports.countCourseSubmissions = async (req, res) => {
     }
   };
   
-
 exports.submitForm = async (req, res) => {
   const formData = req.body;
   console.log(formData);

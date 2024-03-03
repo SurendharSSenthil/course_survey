@@ -7,6 +7,7 @@ import Sem from "./Sem";
 import Student from "./Student";
 import DropdownPart from "./DropdownPart";
 import { url } from './url';
+import { notification } from 'antd';
 
 
 function Main({ regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStdName }) {
@@ -77,8 +78,10 @@ function Main({ regNo, setRegNo, dob, setDob, isAuth, setIsAuth, stdName, setStd
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!courseName || !email || !phNo || responses.length !== question.length) {
-      alert("Please fill out all required fields and answer all questions.");
-      console.log(courseName);
+      notification.warning({
+        message: "Incomplete Data",
+        description: "Please fill out all the fields"
+      })
       return;
     } else {
       const formData = {

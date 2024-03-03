@@ -5,7 +5,9 @@ import { url } from './url';
 
 const DropdownPart = ({ courseName, setCourseName, courses, courseId, setCourseId, questions, setQuestion, setTable }) => {
   async function handleOptionChange(e) {
-    if(e.target.value==="") return;
+    if(e.target.value==="") {
+      return;
+    }
     else
       {
         const coursecode = e.target.value;
