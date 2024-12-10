@@ -26,8 +26,8 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
 const studentRoutes = require("./routes/studentRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 
-app.use("/api/student", studentRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api1/student", studentRoutes);
+app.use("/api1/admin", adminRoutes);
 
 app.listen(port, () => {
 	console.log(`Express Listening on ${port}`);
