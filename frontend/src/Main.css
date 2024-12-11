@@ -229,37 +229,52 @@ button:hover {
 }
 
 @media only screen and (max-width: 600px) {
-  .info {
-    text-align: center;
-  }
-  body{
-    background-color: #fff;
-  }
-  .form-group input {
-    width: calc(100% - 20px);
-  }
-
-  table{
-    overflow-x: auto;
-    background-color: #fff;
-  }
-  .table th,
-  .table td {
-    padding: 8px; 
-  }
-  .table th{
-    font-size: 16px;
-  }
-  .table td{
-    font-size: 16px;
-  }
-  button{
-    font-size: 16px;
-  }
-  .topic{
-    display: none !important;
-  }
+	.info {
+		text-align: center;
+	}
+	body {
+		background-color: #fff;
+	}
+	.form-group input {
+		width: calc(100% - 20px);
+	}
+	table {
+		overflow-x: auto;
+		background-color: #fff;
+	}
+	.table th,
+	.table td {
+		padding: 8px;
+	}
+	.table th {
+		font-size: 16px;
+	}
+	.table td {
+		font-size: 14px;
+	}
+	button {
+		font-size: 16px;
+	}
+	.student-section,
+	.table-section {
+		margin: 10px;
+	}
+	.student-section label,
+	.student-section input {
+		font-size: 14px;
+	}
+	.student-section label {
+		font-weight: 600;
+	}
+	.divLabel {
+		font-size: 16px;
+	}
+	.topic{
+		display: none !important;
+	}
+	
 	.small{
 		display: block;
 	}
 }
+
