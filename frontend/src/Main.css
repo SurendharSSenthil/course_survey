@@ -5,22 +5,44 @@ body {
   padding: 0;
 }
 
-.header{
-  display: flex;
-  flex-direction: row;
-  max-width: 800px;
-  margin: 0px auto;
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+  gap: 10px;
+	background-color: white;
+	padding: 10px 20px; /* Adjust padding as needed */
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+	margin: 0;
+	font-size: 24px;
+	font-family: sans-serif;
+	font-weight: bold;
+}
+
+.header h2{
+	margin: 0;
+	font-size: 24px;
+	font-family: sans-serif;
+	font-weight: 700;
+}
+
+
+.small{
+	display: none;
+	color: #007bff;
+	font-size: 24px !important;
 }
 
 h1 {
   text-align: center;
   color: #007bff;
-  margin: 40px auto;
 }
 
 .logOut{
-  margin-top: 40px;
-  margin-bottom: 40px;
   right: 10%;
 }
 
@@ -28,16 +50,18 @@ h1 {
   text-align: center;
   color: #28a745;
   font-size: 24px;
-  margin-top: 20px;
+  margin-top: 70px;
 }
 
-.topic{
-  text-align: center;
+.topic {
+	text-align: center;
+	color: #007bff; /* Blue color for topic */
+	margin: 20px 0; /* Adjust margin */
 }
 
 .formcard {
   max-width: 800px;
-  margin: 10px auto;
+  margin: 70px auto;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -137,7 +161,7 @@ button:hover {
   font-size: larger;
   font-weight: 600;
   color: #ff5733; 
-  margin-top: 20px;
+  margin-top: 70px;
   padding: 10px;
 }
 
@@ -175,7 +199,7 @@ button:hover {
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1300px) {
   .info {
     text-align: center;
   }
@@ -203,4 +227,10 @@ button:hover {
   button{
     font-size: 16px;
   }
+  .topic{
+    display: none !important;
+  }
+	.small{
+		display: block;
+	}
 }

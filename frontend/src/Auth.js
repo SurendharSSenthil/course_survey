@@ -48,14 +48,11 @@ const Auth = ({
 	return (
 		<div className="main__login__container">
 			<div>
-				<Title className="root-header" level={2}>
-					Course Feedback
-				</Title>
+				<Title className="clg_name">Government College of Technology, Coimbatore-13</Title>
+				<Title className="dept_name">Department of Computer Science and Engineering</Title>
+				
 
 				<div className="login__container">
-					<Title level={3} className="login__header">
-						Login
-					</Title>
 					<Form form={form} onFinish={handleSubmit} className="login__form">
 						<Form.Item
 							label="Register Number"

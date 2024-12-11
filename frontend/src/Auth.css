@@ -1,6 +1,7 @@
 /* Auth.css */
 .main__login__container {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
@@ -9,15 +10,30 @@
 	/* overflow-x: hidden; */
 }
 
+.clg_name{
+	font-size: 32px !important;
+    font-weight: bold;
+	text-align: center !important;
+    /* margin-bottom: 10px; */
+}
+
+.dept_name{
+	font-size: 28px !important;
+	font-weight: bold;
+	text-align: center !important;
+	margin-bottom: 10px;
+}
+
 .root-header {
+	font-size: 24px !important;
 	text-align: center;
 	color: rgba(0, 0, 0, 0.1);
 	margin-top: 20px;
 }
 
 .login__container {
-	/* width: 400px; */
 	padding: 30px;
+	/* width: auto; */
 	background: #fff;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	border-radius: 8px;
@@ -45,4 +61,22 @@
 
 .login__button {
 	width: 100%;
+}
+
+@media  only screen and (max-width: 600px) {
+	.clg_name {
+		font-size: 24px !important;
+		font-weight: bold;
+		text-align: center !important;
+	}
+	.dept_name {
+        font-size: 20px !important;
+        font-weight: bold;
+        text-align: center !important;
+    }
+	.root-header{
+		font-size: 20px !important;
+		font-weight: bold;
+		text-align: center !important;
+	}
 }

@@ -12,7 +12,7 @@ import Sem from './Sem';
 import Student from './Student';
 import DropdownPart from './DropdownPart';
 import { url } from './url';
-import { notification } from 'antd';
+import { notification, Button } from 'antd';
 
 function Main({
 	regNo,
@@ -152,11 +152,13 @@ function Main({
 
 	return (
 		<div>
-			<div className='header'>
-				<h1 className='topic'>Evaluation Form</h1>
-				<button onClick={handleLogOut} className='logOut'>
+				<div className="header d-flex justify-content-between align-items-center w-full fixed-top bg-white shadow-sm">
+				<h2 className="small">CSE, GCT, CBE-13</h2>
+				<h2 className="topic">Department of Computer Science and Engineering, Government College of Technology, CBE-13</h2>
+				{/* <h1 className="topic m-0"></h1> */}
+				<Button type="primary" onClick={handleLogOut} className="logOut">
 					Log Out
-				</button>
+				</Button>
 			</div>
 			{updated ? (
 				<div className='submitted'>
