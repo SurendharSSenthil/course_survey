@@ -135,14 +135,19 @@ const Admin = () => {
             {loading ? (
                 <div id="spin"><Spin size="large"></Spin></div>
             ) : (
-                <div>
-                    <Table dataSource={data} columns={columns} pagination={false}/>
-                    <div id="footer">
-                        <div id="designation">Faculty Advisor</div>
-                        <div id="designation">Course Coordinator</div>
-                        <div id="designation">Head Of the Department</div>
-                    </div>
-                </div>
+            <div>
+					<Table
+						dataSource={data}
+						columns={columns}
+						pagination={false}
+						style={{ "overflow-x": "auto" }}
+					/>
+					<div id="footer">
+						<div id="designation">Faculty Advisor</div>
+						<div id="designation">Course Coordinator</div>
+						<div id="designation">Head Of the Department</div>
+					</div>
+				</div>
             )}
         </div>
     );
