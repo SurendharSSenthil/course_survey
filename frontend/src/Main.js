@@ -152,14 +152,14 @@ function Main({
 
 	return (
 		<div>
-				<div className="header d-flex justify-content-between align-items-center w-full fixed-top bg-white shadow-sm">
-				<h2 className="small">CSE, GCT, CBE-13</h2>
-				<h2 className="topic">Department of Computer Science and Engineering, Government College of Technology, CBE-13</h2>
-				{/* <h1 className="topic m-0"></h1> */}
-				<Button type="primary" onClick={handleLogOut} className="logOut">
-					Log Out
-				</Button>
-			</div>
+				<div className="header d-flex justify-content-between align-items-center  fixed-top bg-white shadow-sm">
+	<h2 className="small">CSE, GCT, CBE-13</h2>
+	<h2 className="topic me-auto ms-3 text-center">Department of Computer Science and Engineering, Government College of Technology, CBE-13</h2>
+	<Button type="primary" onClick={handleLogOut} className="logOut">
+		Log Out
+	</Button>
+</div>
+
 			{updated ? (
 				<div className='submitted'>
 					<FontAwesomeIcon icon={faCheckCircle} beatFade size='lg' />
@@ -184,7 +184,8 @@ function Main({
 				</div>
 			) : (
 				<div>
-					<form onSubmit={handleSubmit} className='formcard'>
+					<form onSubmit={handleSubmit}>
+					<div className="student-section" style={{ marginTop: "100px" }}>
 						<Student
 							stdName={stdName}
 							setStdName={setStdName}
@@ -209,8 +210,9 @@ function Main({
 								disabled={ret}
 							/>
 						</div>
-
-						<div className='form-group'>
+					</div>
+					<div className='student-section'>
+						<div >
 							<label htmlFor='phno'>
 								<FontAwesomeIcon icon={faPhone} className='fontIcon' />
 								Mobile Number:
@@ -249,8 +251,10 @@ function Main({
 								setTable={setTable}
 							/>
 						)}
-
+					</div>
+					
 						{table && (
+							<div className='table-section'>
 							<table className='table table-bordered table-striped'>
 								<thead>
 									<tr>
@@ -345,8 +349,10 @@ function Main({
 									))}
 								</tbody>
 							</table>
+							</div>
 						)}
-						<div className='d-flex'>
+					
+						<div className='d-flex submit-button'>
 							<button
 								type='submit'
 								onClick={(e) => {
